@@ -21,10 +21,10 @@ class Knapsack {
 public:
 	int W = 0;
 	std::vector<Item> items;
-	bool print_flag = true; 
+	bool print_flag = false; 
 	Knapsack(const std::vector<Item>& v,int w);
 	static Knapsack readFile(const std::string& file_name);
 	virtual void Add(int startIdx=0);
 	virtual void Print();
-
+	double getResult(std::vector<std::pair<int,Item>> &counts);
 };

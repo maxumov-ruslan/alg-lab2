@@ -13,7 +13,7 @@ Knapsack::Knapsack(const std::vector<Item>& v, int w) {
 Knapsack Knapsack::readFile(const std::string& name) {
 	std::ifstream input(name);
 	if (!input.is_open()) {
-		std::cerr << "U Wot M8?\n";
+		std::cerr << "Can't open file\n";
 		exit(EXIT_FAILURE);
 	}
 	int N,W;
@@ -21,7 +21,7 @@ Knapsack Knapsack::readFile(const std::string& name) {
 	std::vector<Item> items(N);
 	for (int i = 0; i < N; i++) {
 		input >> items[i].name >> items[i].weight >> items[i].price;
-
+		//std::cout << items[i].name << " "<<items[i].weight <<" "<< items[i].price<<std::endl;
 	}
 	return Knapsack(items, W);
 }
@@ -29,8 +29,8 @@ void Knapsack::Print() {
 	for (int i = 0; i < items.size(); i++) {
 		int cnt = max_cnt[i];
 		Item& item = items[i];
-		if (cnt && print_flag) {
-			std::cout << item.name << ' ';
+		if (cnt) {
+			std::cout <<cnt<<"*" << item.name << ' ';
 		}
 	}
 	std::cout << max_w <<' ' << max_p << std::endl;
@@ -65,4 +65,13 @@ void Knapsack::Add(int idx) {
 	}
 	Add(idx + 1);
 
+}
+double Knapsack::getResult(std::vector<std::pair<int,Item>> &counts){
+	counts.clear();
+	for(int i=0;i<items.size();i++){
+		if(max_cnt[i]>0){
+			counts.push_back({max_cnt[i],items[i]});
+		}
+	}
+	return max_p;
 }
