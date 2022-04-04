@@ -42,10 +42,13 @@ void DynKnapsack::Add(int startIdx){
         }
     }
     max_p = max_price.back().back();
-    max_cnt = max_count.back().back();
+    restoreAns(max_cnt);
+    max_p = 0;
     max_w = 0;
     for(int i=0;i<max_cnt.size();i++){
-        max_w += max_cnt[i]*items[i].weight;
+        max_w += max_cnt[i] * items[i].weight;
+        max_p += max_cnt[i] * items[i].price;
+
     }
 }
 void DynKnapsack::Print(){
@@ -111,4 +114,24 @@ double DynKnapsack::lazyAdd (int itemcount,int weight,std::vector<int> &counts){
     max_count[itemcount][weight] = counts;
     max_price[itemcount][weight] = p;
     return p;
+}
+void DynKnapsack::Ans(std::vector<int> &ans,int i, int j) {
+    if (max_price[i+1][j] <= 0.0)
+        return;
+    if (max_price[i+1][j] == max_price[i][j]) {
+        Ans(ans, i-1, j);
+        ans[i] = 0;
+    }else {
+        int k = (max_price[i+1][j] - max_price[i][j]) / items[i].price;
+        ans[i] = k;
+        Ans(ans, i - 1, j - items[i].weight*k);
+        
+    }
+}
+void DynKnapsack::restoreAns(std::vector<int> &ans)
+{
+    ans.clear();
+    ans.resize(items.size(), 0);
+    Ans(ans, items.size()-1, W);
+    
 }

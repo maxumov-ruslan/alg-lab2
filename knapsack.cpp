@@ -57,9 +57,9 @@ void Knapsack::Add(int idx) {
 	if (items[idx].weight + w_cur <= W) {
 		w_cur += items[idx].weight;
 		p_cur += items[idx].price;
-		counts[idx]++;
+		counts[idx]=1;
 		Add(idx + 1);
-		counts[idx]--;
+		counts[idx]=0;
 		p_cur -= items[idx].price;
 		w_cur -= items[idx].weight;
 	}
