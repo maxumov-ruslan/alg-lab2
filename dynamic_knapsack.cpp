@@ -1,8 +1,8 @@
 #include "dynamic_knapsack.hpp"
 #include <iostream>
 DynKnapsack::DynKnapsack(const std::vector<Item>& v,int w,int k):Knapsack(v,w){
-    max_price.resize(v.size()+1,std::vector(w+1,-1.0));
-    max_count.resize(v.size()+1,std::vector(w+1,std::vector(v.size(),0)));
+    max_price.resize(v.size()+1,std::vector<double>(w+1,-1.0));
+    max_count.resize(v.size()+1,std::vector<std::vector<int>>(w+1,std::vector<int>(v.size(),0)));
     K = k;
 }
 void DynKnapsack::Add(int startIdx){
@@ -78,7 +78,7 @@ void DynKnapsack::lazyAdd (){
 double DynKnapsack::lazyAdd (int itemcount,int weight,std::vector<int> &counts){
 
     if(itemcount <= 0 || weight <= 0){
-        counts = std::vector(items.size(),0);
+        counts = std::vector<int>(items.size(),0);
         return 0.0;
     }
     if(max_price[itemcount][weight]>=0){
